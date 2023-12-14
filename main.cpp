@@ -1,8 +1,6 @@
 #include <iostream>
-#include <vector>
 #include <cassert>
 #include "Data"
-
 #include "Bicycle_Model"
 
 using namespace std;
@@ -13,14 +11,7 @@ int main()
 
     for (int i = 0; i < testCases.size(); i++)
     {
-        auto [x, y, theta, velocity, acceleration, steeringAngle] = testCases[i];
-
-        auto [unewX, unewY, unewTheta, unewVelocity, usteeringAngle, uangleVelocity] = bicycle.update(x, y, theta, velocity, acceleration, steeringAngle);
-
-        auto [expectedX, expectedY, expectedTheta, expectedVelocity, expectedsteeringAngle, expectedangleVelocity] = testCases[i];
-
-        if (unewVelocity == expectedX)
-            cout << "true";
+        assert(1 == 2);
 
         // assert(unewVelocity == expectedX);
         // assert(uangleVelocity == expectedY);

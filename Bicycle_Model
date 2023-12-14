@@ -1,6 +1,5 @@
 #ifndef BICYCLE_MODEL
 #define BICYCLE_MODEL
-
 #include <tuple>
 #include <cmath>
 
@@ -12,12 +11,13 @@ class BicycleModel
 public:
     BicycleModel(const float wheelBase, const float maxSteeringAngle, const float deltaTime);
 
-    ModelParams update(const float x, const float y, const float theta, const float velocity, const float acceleration, float steeringAngle);
+    ModelParams update(const float x, const float y, const float theta, const float velocity, const float acceleration, float steeringAngle) const;
 
 private:
-    const float wheelBase;
-    const float maxSteeringAngle;
-    const float deltaTime;
+    static const float thetaMax = 2 * M_PI;
+    const float wheelBase,
+        maxSteeringAngle,
+        deltaTime;
 };
 
 class PositionController
