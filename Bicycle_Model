@@ -2,6 +2,7 @@
 #define BICYCLE_MODEL
 #include <tuple>
 #include <cmath>
+#include <vector>
 
 using namespace std;
 using ModelParams = tuple<float, float, float, float, float, float>;
@@ -14,7 +15,7 @@ public:
     ModelParams update(const float x, const float y, const float theta, const float velocity, const float acceleration, float steeringAngle) const;
 
 private:
-    static const float thetaMax = 2 * M_PI;
+    static constexpr float thetaMax = 2 * M_PI;
     const float wheelBase,
         maxSteeringAngle,
         deltaTime;
