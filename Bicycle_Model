@@ -1,0 +1,39 @@
+#ifndef BICYCLE_MODEL
+#define BICYCLE_MODEL
+
+#include <tuple>
+#include <cmath>
+
+using namespace std;
+using ModelParams = tuple<float, float, float, float, float, float>;
+
+class BicycleModel
+{
+public:
+    BicycleModel(const float wheelBase, const float maxSteeringAngle, const float deltaTime);
+
+    ModelParams update(const float x, const float y, const float theta, const float velocity, const float acceleration, float steeringAngle);
+
+private:
+    const float wheelBase;
+    const float maxSteeringAngle;
+    const float deltaTime;
+};
+
+class PositionController
+{
+private:
+    double Kp;
+
+public:
+    PositionController(double Kp) : Kp(Kp) {}
+
+    double compute(double x, double y, double theta, double x_d, double y_d)
+    {
+
+        // TODO: implement PID control
+        return 0;
+    }
+};
+
+#endif // BICYCLE_MODEL

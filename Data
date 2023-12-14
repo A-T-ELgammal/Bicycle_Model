@@ -1,0 +1,12 @@
+#include <vector>
+#include <tuple>
+#include <cmath>
+
+using namespace std;
+using ModelParams = tuple<float, float, float, float, float, float>;
+
+vector<ModelParams> testCases = {
+                        make_tuple(0.0F, 0.0F, float(M_PI / 4), 5.0F, 2.0F, float(M_PI / 8)),
+                        make_tuple(1.0F, 2.0F, 0.0F, 3.0F, 1.0F, float(M_PI / 4)),
+                        make_tuple(-1.0F, -2.0F, float(M_PI / 2), 4.0F, -1.0F, float(-M_PI / 4))},
+                    results = {make_tuple(0.3535533905932738F, 0.35355339059327373F, 0.871554584371052F, 5.2F, 0.39269908169872414F, 0.8615642097360376F), make_tuple(1.3F, 2.0F, 0.12399999999999999F, 3.1F, 0.7853981633974483F, 1.2399999999999998F), make_tuple(-1.0F, -1.6F, 1.4147963267948966F, 3.9F, -0.7853981633974483F, -1.5599999999999998F)};
