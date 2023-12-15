@@ -23,18 +23,14 @@ private:
 
 class PositionController
 {
-private:
-    double Kp;
-
 public:
-    PositionController(double Kp) : Kp(Kp) {}
+    PositionController(const float kp) : kp{kp} {};
 
-    double compute(double x, double y, double theta, double x_d, double y_d)
-    {
+    float compute(const float actual, const float target);
 
-        // TODO: implement PID control
-        return 0;
-    }
+private:
+    float kp = 0, ki = 0, kd = 0,
+          prevError = 0, integral = 0;
 };
 
 #endif // BICYCLE_MODEL

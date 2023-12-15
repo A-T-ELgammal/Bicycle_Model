@@ -18,14 +18,16 @@ int main()
         const auto [x, y, theta, velocity, acceleration, steeringAngle] = testCase;
         const ModelParams updated = bicycle.update(x, y, theta, velocity, acceleration, steeringAngle);
 
-        cout << "Updated x: " << get<0>(updated) << endl;
-        cout << "Updated y: " << get<1>(updated) << endl;
-        cout << "Updated theta: " << get<2>(updated) << endl;
-        cout << "Updated velocity: " << get<3>(updated) << endl;
-        cout << "Updated acceleration: " << get<4>(updated) << endl;
-        cout << "Updated steeringAngle: " << get<5>(updated) << endl;
-        cout << "==========================================" << endl;
+        // cout << "Updated x: " << get<0>(updated) << endl;
+        // cout << "Updated y: " << get<1>(updated) << endl;
+        // cout << "Updated theta: " << get<2>(updated) << endl;
+        // cout << "Updated velocity: " << get<3>(updated) << endl;
+        // cout << "Updated acceleration: " << get<4>(updated) << endl;
+        // cout << "Updated steeringAngle: " << get<5>(updated) << endl;
+        // cout << "==========================================" << endl;
     }
+
+    PositionController controller(0.1);
 
     return 0;
 }

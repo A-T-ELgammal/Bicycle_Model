@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "Bicycle_Model"
 
 BicycleModel::BicycleModel(const float wheelBase, const float maxSteeringAngle, const float deltaTime) : wheelBase{wheelBase}, maxSteeringAngle{maxSteeringAngle}, deltaTime{deltaTime} {}
@@ -19,4 +21,21 @@ ModelParams BicycleModel::update(const float x, const float y, const float theta
                 newTheta = fmod(calculatedTheta, thetaMax);
 
     return make_tuple(newX, newY, newTheta, newVelocity, steeringAngle, angleVelocity);
+}
+
+float PositionController::compute(const float actual, const float target)
+{
+    float error = target - actual;
+    integral += error;
+
+    float computed = kp * error + ki * integral + kd * (error - prevError);
+
+    cout << "error: " << error
+         << " prevError: " << prevError
+         << " Integral: " << integral
+         << " Computed: " << computed << endl;
+
+    prevError = error;
+
+    return computed;
 }
