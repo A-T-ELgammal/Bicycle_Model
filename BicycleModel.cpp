@@ -1,41 +1,25 @@
-#include <iostream>
-
 #include "Bicycle_Model"
 
-BicycleModel::BicycleModel(const float wheelBase, const float maxSteeringAngle, const float deltaTime) : wheelBase{wheelBase}, maxSteeringAngle{maxSteeringAngle}, deltaTime{deltaTime} {}
-
-ModelParams BicycleModel::update(const float x, const float y, const float theta, const float velocity, const float acceleration, float steeringAngle) const
+double BicycleModel::confineDeltaAngle(const double delta) const
 {
-    const float newVelocity = velocity + acceleration * deltaTime;
-
-    steeringAngle = steeringAngle < -maxSteeringAngle
-                        ? max(steeringAngle, -maxSteeringAngle)
-                        : min(steeringAngle, maxSteeringAngle);
-
-    const float angleVelocity = newVelocity * tan(steeringAngle) / wheelBase;
-
-    const float newX = x + velocity * cos(theta) * deltaTime,
-                newY = y + velocity * sin(theta) * deltaTime;
-
-    const float calculatedTheta = theta + angleVelocity * deltaTime,
-                newTheta = fmod(calculatedTheta, thetaMax);
-
-    return make_tuple(newX, newY, newTheta, newVelocity, steeringAngle, angleVelocity);
+    return max(-thetaMax, min(delta, thetaMax));
 }
 
-float PositionController::compute(const float actual, const float target)
+States BicycleModel::update(const double x, const double y, const double theta, const double v, const double delta) const
 {
-    float error = target - actual;
-    integral += error;
+    const double deltaTheta = v * tan(confineDeltaAngle(delta)) / L,
+                 deltaX = v * cos(theta + deltaTheta),
+                 deltaY = v * sin(theta + deltaTheta),
+                 updatedX = x + deltaX,
+                 updatedY = y + deltaY,
+                 updatedTheta = theta + deltaTheta;
+    return make_tuple(updatedX, updatedY, updatedTheta);
+}
 
-    float computed = kp * error + ki * integral + kd * (error - prevError);
-
-    cout << "error: " << error
-         << " prevError: " << prevError
-         << " Integral: " << integral
-         << " Computed: " << computed << endl;
-
-    prevError = error;
-
-    return computed;
+double PositionController::compute(const BicycleModel &model, const double x, const double y, const double theta, const double x_d, const double y_d) const
+{
+    const double newTheta = atan2(y_d - y, x_d - x),
+                 error = newTheta - theta,
+                 delta = model.confineDeltaAngle(Kp * error);
+    return delta;
 }

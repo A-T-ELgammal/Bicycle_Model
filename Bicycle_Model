@@ -1,36 +1,36 @@
 #ifndef BICYCLE_MODEL
 #define BICYCLE_MODEL
+
 #include <tuple>
 #include <cmath>
-#include <vector>
+#include <algorithm>
 
 using namespace std;
-using ModelParams = tuple<float, float, float, float, float, float>;
+using States = tuple<double, double, double>;
 
 class BicycleModel
 {
 public:
-    BicycleModel(const float wheelBase, const float maxSteeringAngle, const float deltaTime);
+    BicycleModel(const double L) : L{!L ? throw invalid_argument("Length cannot be negative") : L} {};
 
-    ModelParams update(const float x, const float y, const float theta, const float velocity, const float acceleration, float steeringAngle) const;
+    States update(const double x, const double y, const double theta, const double v, const double delta) const;
+    double confineDeltaAngle(const double delta) const;
 
 private:
-    static constexpr float thetaMax = 2 * M_PI;
-    const float wheelBase,
-        maxSteeringAngle,
-        deltaTime;
+    friend class PositionController;
+    static constexpr double thetaMax = M_PI / 2;
+    const double L;
 };
 
 class PositionController
 {
 public:
-    PositionController(const float kp) : kp{kp} {};
+    PositionController(const float Kp) : Kp{!Kp ? throw invalid_argument("propotional gain cannot be negative") : Kp} {};
 
-    float compute(const float actual, const float target);
+    double compute(const BicycleModel &model, const double x, const double y, const double theta, const double x_d, const double y_d) const;
 
 private:
-    float kp = 0, ki = 0, kd = 0,
-          prevError = 0, integral = 0;
+    const double Kp;
 };
 
 #endif // BICYCLE_MODEL
